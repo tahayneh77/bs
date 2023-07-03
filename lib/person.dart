@@ -10,5 +10,7 @@ class Person {
   @HiveField(1)
   String password;
 
+  Person({required this.email,required this.password});
+
 
 }

@@ -1,6 +1,9 @@
 import 'package:bs/app_Events.dart';
 import 'package:bs/app_bloc.dart';
+import 'package:bs/boxes.dart';
 import 'package:bs/init_state.dart';
+import 'package:bs/main.dart';
+import 'package:bs/person.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -116,7 +119,14 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top:10),
                   child: ElevatedButton(
                     onPressed: (){
-
+                      setState(() {
+                        personBox.put('key${userNameController.text}',Person(
+                            email: userNameController.text,
+                            password: passwordController.text,
+                        ));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context)=> MyHomePage(title: '',)));
+                      });
                     },
                     child:Text("Login"),
                     style:ElevatedButton.styleFrom(

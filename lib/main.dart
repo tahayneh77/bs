@@ -1,13 +1,20 @@
 import 'package:bs/app_Events.dart';
 import 'package:bs/app_bloc.dart';
+import 'package:bs/person.dart';
 import 'package:bs/welcome_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
+import 'boxes.dart';
 import 'init_state.dart';
 
-void main() {
+void main() async{
+  await Hive.initFlutter();
+  Hive.registerAdapter(PersonAdapter());
+  personBox = await Hive.openBox<Person>('PersonBox');
   runApp(const MyApp());
 }
 
@@ -75,8 +82,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text(
-                  'You have pushed the button this many times:',
+                SizedBox(
+                  width: 350.w,
+                  height: 200.h,
+                  child: ListView.builder(
+                    itemCount: personBox.length,
+                      itemBuilder:(context,index){
+                      Person person = personBox.getAt(index);
+                      return ListTile(
+                        title: Text(person.email),
+
+                      );
+                      }
+                  ),
                 ),
                 Text(
                   '${BlocProvider.of<AppBloc>(context).state.counter}',
