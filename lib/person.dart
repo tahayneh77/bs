@@ -11,6 +11,4 @@ class Person {
   String password;
 
   Person({required this.email,required this.password});
-
-
 }
